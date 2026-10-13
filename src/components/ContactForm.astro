@@ -1,0 +1,78 @@
+---
+// Formularz kontaktowy. W v1 bez backendu.
+// PODPIECIE: ustaw PUBLIC_FORM_ENDPOINT w .env (np. https://formspree.io/f/XXXX albo wlasny endpoint przyjmujacy JSON POST).
+// Gdy endpoint jest pusty, formularz wyswietla instrukcje wyslania maila.
+const endpoint = import.meta.env.PUBLIC_FORM_ENDPOINT ?? '';
+const email = 'kontakt@banach.network';
+---
+<form id="contact" class="form" method="post" action={endpoint || '#'} data-endpoint={endpoint} novalidate>
+  <div class="field">
+    <label for="name">Imię i nazwisko</label>
+    <input id="name" name="name" type="text" autocomplete="name" required />
+  </div>
+  <div class="field">
+    <label for="org">Instytucja</label>
+    <input id="org" name="organization" type="text" autocomplete="organization" required />
+  </div>
+  <div class="field">
+    <label for="role">Stanowisko</label>
+    <input id="role" name="role" type="text" autocomplete="organization-title" />
+  </div>
+  <div class="field">
+    <label for="email">E-mail</label>
+    <input id="email" name="email" type="email" autocomplete="email" required />
+  </div>
+  <div class="field">
+    <label for="msg">Wiadomość</label>
+    <textarea id="msg" name="message" required></textarea>
+  </div>
+  <label class="check">
+    <input type="checkbox" name="consent" required />
+    <span>Wyrażam zgodę na przetwarzanie moich danych osobowych przez Polska Tokenizacja S.A. w celu obsługi zapytania. Administratorem danych jest Polska Tokenizacja S.A. z siedzibą w Warszawie. Dane nie będą przekazywane podmiotom trzecim. Przysługuje mi prawo dostępu, sprostowania i usunięcia danych.</span>
+  </label>
+  <button class="btn" type="submit">Wyślij</button>
+  <p class="notice" id="form-status" role="status" aria-live="polite" hidden></p>
+</form>
+
+<script is:inline define:vars={{ email }}>
+  const form = document.getElementById('contact');
+  const status = document.getElementById('form-status');
+  const endpoint = form.dataset.endpoint;
+
+  const show = (text) => { status.textContent = text; status.hidden = false; };
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (!form.reportValidity()) return;
+
+    if (!endpoint) {
+      const data = new FormData(form);
+      const body = encodeURIComponent(
+        `${data.get('name')}\n${data.get('organization')}, ${data.get('role') || ''}\n\n${data.get('message')}`
+      );
+      show(`Formularz nie jest jeszcze podpięty do skrzynki. Napisz na ${email} albo kliknij: `);
+      const a = document.createElement('a');
+      a.href = `mailto:${email}?subject=${encodeURIComponent('Banach Network - zapytanie')}&body=${body}`;
+      a.textContent = 'otwórz wiadomość';
+      status.appendChild(a);
+      return;
+    }
+
+    try {
+      const res = await fetch(endpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify(Object.fromEntries(new FormData(form))),
+      });
+      if (!res.ok) throw new Error(String(res.status));
+      form.reset();
+      show('Dziękujemy. Odezwiemy się w ciągu kilku dni roboczych.');
+    } catch {
+      show(`Nie udało się wysłać. Napisz bezpośrednio na ${email}.`);
+    }
+  });
+</script>
+<style>
+  .form { max-width: 560px; }
+  #form-status { margin-top: 1.25rem; }
+</style>

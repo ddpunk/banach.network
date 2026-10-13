@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://banach.network/sitemap-index.xml

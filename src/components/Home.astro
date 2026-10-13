@@ -1,0 +1,141 @@
+---
+// Strona glowna. Wspolna dla PL i EN, tresc z i18n.
+import type { Dict, Locale } from '../i18n';
+interface Props { d: Dict; locale: Locale }
+const { d, locale } = Astro.props;
+const manifestHref = locale === 'pl' ? '/manifest' : '/manifest';
+---
+<section class="hero section">
+  <div class="wrap hero-grid">
+    <div class="hero-copy">
+      <h1>{d.hero.h1}</h1>
+      <p class="lead">{d.hero.lead}</p>
+      <div class="actions">
+        <a class="btn" href="/kontakt">{d.hero.cta}</a>
+        <a class="btn ghost" href={manifestHref}>{d.hero.secondary}</a>
+      </div>
+    </div>
+    <div class="hero-art" aria-hidden="true">
+      <svg viewBox="0 0 460 572"><use href="/brand.svg#mark" /></svg>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="dlaczego">
+  <div class="wrap">
+    <p class="eyebrow">{d.why.eyebrow}</p>
+    <h2>{d.why.h2}</h2>
+    <div class="grid c4 stats">
+      {d.why.stats.map(s => (
+        <div class="stat"><div class="num">{s.num}</div><p>{s.text}</p></div>
+      ))}
+    </div>
+    <p class="line">{d.why.line}</p>
+  </div>
+</section>
+
+<section class="section tint" id="jak">
+  <div class="wrap">
+    <p class="eyebrow">{d.how.eyebrow}</p>
+    <h2>{d.how.h2}</h2>
+    <div class="grid c3 steps">
+      {d.how.steps.map(s => (
+        <div class="step"><h3>{s.h3}</h3><p>{s.p}</p></div>
+      ))}
+    </div>
+    <p class="bar">{d.how.bar}</p>
+  </div>
+</section>
+
+<section class="section" id="warstwy">
+  <div class="wrap">
+    <p class="eyebrow">{d.layers.eyebrow}</p>
+    <h2>{d.layers.h2}</h2>
+    <div class="grid c5">
+      {d.layers.items.map((l, i) => (
+        <div class="card"><span class="idx">0{i + 1}</span><h3>{l.h3}</h3><p>{l.p}</p></div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<section class="section tint plt" id="plt">
+  <div class="wrap">
+    <p class="eyebrow">{d.plt.eyebrow}</p>
+    <h2 class="measure">{d.plt.h2}</h2>
+    <p class="lead">{d.plt.lead}</p>
+    <dl class="grid c4 facts">
+      {d.plt.facts.map(f => (
+        <div class="fact"><dt>{f.k}</dt><dd>{f.v}</dd></div>
+      ))}
+    </dl>
+    <p><a class="btn ghost" href={d.plt.href} target="_blank" rel="noopener">{d.plt.cta}</a></p>
+  </div>
+</section>
+
+<section class="section dark" id="model">
+  <div class="wrap">
+    <p class="eyebrow">{d.model.eyebrow}</p>
+    <h2>{d.model.h2}</h2>
+    <div class="grid c3">
+      {d.model.cols.map(c => (
+        <div class="item"><h3>{c.h3}</h3><p>{c.p}</p></div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<section class="section" id="pierwsi">
+  <div class="wrap">
+    <p class="eyebrow">{d.firsts.eyebrow}</p>
+    <h2>{d.firsts.h2}</h2>
+    <ol class="firsts">
+      {d.firsts.items.map(f => (
+        <li><span>{f.text}</span><span class="year">{f.year}</span></li>
+      ))}
+    </ol>
+  </div>
+</section>
+
+<section class="section tint" id="regulacja">
+  <div class="wrap">
+    <p class="eyebrow">{d.reg.eyebrow}</p>
+    <h2>{d.reg.h2}</h2>
+    <ul class="plain reg measure">
+      {d.reg.items.map(r => <li>{r}</li>)}
+    </ul>
+  </div>
+</section>
+
+<section class="section invite" id="zaproszenie">
+  <div class="wrap">
+    <h2 class="measure">{d.invite.h2}</h2>
+    <p class="lead">{d.invite.p}</p>
+    <a class="btn" href="/kontakt">{d.invite.cta}</a>
+  </div>
+</section>
+
+<style>
+  .hero { padding-block: clamp(56px, 9vw, 120px); overflow: hidden; }
+  .hero-grid { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.75fr); gap: clamp(24px, 5vw, 64px); align-items: center; }
+  .hero h1 { max-width: 14ch; }
+  .actions { display: flex; gap: 0.75rem; flex-wrap: wrap; margin-top: 2.25rem; }
+  .hero-art { display: flex; justify-content: flex-end; color: var(--ink); }
+  .hero-art svg { width: min(100%, 420px); height: auto; opacity: 0.9; }
+  @media (max-width: 860px) {
+    .hero-grid { grid-template-columns: 1fr; }
+    .hero-art { justify-content: flex-start; margin-top: 1rem; }
+    .hero-art svg { width: 160px; opacity: 0.5; }
+  }
+  .stats { margin-top: 2.5rem; }
+  .line { margin-top: clamp(32px, 5vw, 56px); font-family: var(--font-head); font-weight: 600; letter-spacing: -0.02em; font-size: clamp(1.35rem, 2.4vw, 1.9rem); line-height: 1.3; max-width: 34ch; }
+  .steps { margin-top: 1.5rem; }
+  .plt .lead { margin-bottom: 2rem; }
+  .facts { margin: 0 0 2rem; }
+  .fact { padding: 1.25rem; border-radius: var(--radius); background: rgba(255,255,255,0.7); border: 1px solid rgba(12,18,17,0.08); }
+  .fact dt { font-family: var(--font-head); font-size: 0.76rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.5rem; }
+  .fact dd { margin: 0; color: var(--ink-2); font-size: 0.96rem; }
+  .reg li { font-size: 1.1rem; padding: 0.9rem 0; }
+  .invite h2 { font-size: clamp(1.8rem, 3.4vw, 2.6rem); }
+  .invite .lead { margin-bottom: 2rem; }
+</style>

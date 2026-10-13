@@ -1,0 +1,55 @@
+---
+import Logo from './Logo.astro';
+import type { Dict } from '../i18n';
+interface Props { d: Dict; home: string }
+const { d, home } = Astro.props;
+const links = [
+  { href: '/manifest', label: d.nav.manifest },
+  { href: '/technologia', label: d.nav.technology },
+  { href: '/dla-instytucji', label: d.nav.institutions },
+  { href: '/kontakt', label: d.nav.contact },
+];
+---
+<header class="hdr">
+  <div class="wrap row">
+    <a href={home} class="logo" aria-label="Banach Network"><Logo variant="text" height={36} /></a>
+    <nav aria-label="Główna" class="desk">
+      <ul>
+        {links.map(l => <li><a href={l.href}>{l.label}</a></li>)}
+        <li><a href={d.nav.langHref} lang={d.lang === 'pl' ? 'en' : 'pl'}>{d.nav.lang}</a></li>
+        <li><a href="/kontakt" class="btn small">{d.nav.cta}</a></li>
+      </ul>
+    </nav>
+    <details class="mob">
+      <summary aria-label={d.nav.menu}><span></span><span></span><span></span></summary>
+      <ul>
+        {links.map(l => <li><a href={l.href}>{l.label}</a></li>)}
+        <li><a href={d.nav.langHref}>{d.nav.lang}</a></li>
+        <li><a href="/kontakt" class="btn small">{d.nav.cta}</a></li>
+      </ul>
+    </details>
+  </div>
+</header>
+<style>
+  .hdr { position: sticky; top: 0; z-index: 50; background: color-mix(in srgb, var(--paper) 92%, transparent); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
+  .row { display: flex; align-items: center; justify-content: space-between; height: 72px; }
+  .logo { display: inline-flex; text-decoration: none; }
+  ul { list-style: none; margin: 0; padding: 0; display: flex; gap: 1.6rem; align-items: center; }
+  nav a { text-decoration: none; color: var(--ink); font-size: 0.95rem; }
+  nav a:hover { color: var(--accent); }
+  .btn.small { padding: 0.55em 1.1em; font-size: 0.9rem; }
+  nav a.btn, .mob a.btn { color: var(--paper); }
+  nav a.btn:hover, .mob a.btn:hover { color: var(--white); }
+  .mob { display: none; }
+  @media (max-width: 860px) {
+    .desk { display: none; }
+    .mob { display: block; position: relative; }
+    summary { list-style: none; cursor: pointer; width: 40px; height: 40px; display: grid; place-content: center; gap: 5px; }
+    summary::-webkit-details-marker { display: none; }
+    summary span { display: block; width: 22px; height: 2px; background: var(--ink); }
+    .mob ul { position: absolute; right: 0; top: 48px; flex-direction: column; align-items: flex-start; gap: 0; background: var(--white); border: 1px solid var(--line); min-width: 240px; padding: 0.5rem 0; }
+    .mob li { width: 100%; }
+    .mob a { display: block; padding: 0.7rem 1.2rem; text-decoration: none; color: var(--ink); }
+    .mob .btn.small { margin: 0.5rem 1.2rem; display: inline-block; color: var(--paper); }
+  }
+</style>

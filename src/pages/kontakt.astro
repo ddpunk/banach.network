@@ -1,0 +1,21 @@
+---
+import Base from '../layouts/Base.astro';
+import ContactForm from '../components/ContactForm.astro';
+---
+<Base title="Kontakt - Banach Network" description="Zaproszenie dla instytucji finansowych do rozmowy o statusie założyciela Banach Network." path="/kontakt">
+  <section class="section">
+    <div class="wrap two-col">
+      <div>
+        <p class="eyebrow">Kontakt</p>
+        <h1>Zostań założycielem.</h1>
+        <p class="lead">Rozmawiamy z zarządami i dyrektorami strategii, innowacji i bankowości cyfrowej. Napisz, kim jesteś i z jakiej instytucji. Odpowiadamy w ciągu kilku dni roboczych.</p>
+        <p class="muted">Maciej Krasowski<br /><a href="mailto:kontakt@banach.network">kontakt@banach.network</a></p>
+      </div>
+      <ContactForm />
+    </div>
+  </section>
+</Base>
+<style>
+  .two-col { grid-template-columns: 1fr 1.2fr; }
+  @media (max-width: 860px) { .two-col { grid-template-columns: 1fr; } }
+</style>

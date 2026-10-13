@@ -1,0 +1,38 @@
+---
+import Logo from './Logo.astro';
+import type { Dict } from '../i18n';
+interface Props { d: Dict }
+const { d } = Astro.props;
+const year = new Date().getFullYear();
+---
+<footer class="ftr">
+  <div class="wrap grid c3">
+    <div>
+      <Logo variant="text" tone="light" height={44} />
+      <p class="op">{d.brandFormal}<br />{d.operator}<br />{d.footer.city}</p>
+    </div>
+    <div>
+      <p class="lbl">{d.footer.contactLabel}</p>
+      <p>{d.footer.contactName}<br /><a href={`mailto:${d.footer.contactEmail}`}>{d.footer.contactEmail}</a></p>
+    </div>
+    <div>
+      <ul class="plain">
+        {d.footer.links.map(l => <li><a href={l.href}>{l.label}</a></li>)}
+      </ul>
+    </div>
+  </div>
+  <div class="wrap legal">
+    <p>{d.footer.legal}</p>
+    <p>&copy; {year} {d.operator}</p>
+  </div>
+</footer>
+<style>
+  .ftr { background: var(--ink); color: rgba(247,248,246,0.8); padding-block: clamp(40px, 6vw, 72px) 28px; font-size: 0.95rem; }
+  .ftr a { color: var(--paper); }
+  .op { margin-top: 1rem; }
+  .lbl { font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(247,248,246,0.55); margin-bottom: 0.4rem; }
+  ul.plain li { border-color: rgba(247,248,246,0.15); padding: 0.4rem 0; }
+  ul.plain a { text-decoration: none; }
+  .legal { margin-top: 2.5rem; padding-top: 1.25rem; border-top: 1px solid rgba(247,248,246,0.15); display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; font-size: 0.85rem; color: rgba(247,248,246,0.6); }
+  .legal p { margin: 0; }
+</style>

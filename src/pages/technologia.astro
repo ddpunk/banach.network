@@ -1,0 +1,90 @@
+---
+import Prose from '../layouts/Prose.astro';
+import LayerDiagram from '../components/LayerDiagram.astro';
+const headings = [
+  { depth: 2, slug: 'warstwy', text: 'Warstwy sieci' },
+  { depth: 2, slug: 'ledger', text: 'Ledger' },
+  { depth: 2, slug: 'tokeny', text: 'Tokenizowane papiery' },
+  { depth: 2, slug: 'tozsamosc', text: 'Tożsamość' },
+  { depth: 2, slug: 'custody', text: 'Custody' },
+  { depth: 2, slug: 'compliance', text: 'Compliance' },
+  { depth: 2, slug: 'mosty', text: 'Mosty' },
+  { depth: 2, slug: 'operacje', text: 'Operacje i odporność' },
+];
+---
+<Prose
+  title="Technologia - Banach Network"
+  description="Warstwa techniczna Banach Network: Hyperledger Besu, ERC-3643, DID i Verifiable Credentials, MPC i HSM, KYT i Travel Rule, mosty do sieci globalnych."
+  eyebrow="Technologia"
+  h1="Sprawdzony stack. Polska konfiguracja."
+  lead="Nie budujemy ledgera od zera. Składamy sieć z komponentów, które działają produkcyjnie w największych instytucjach finansowych świata, i konfigurujemy je pod polskie prawo i polski nadzór."
+  headings={headings}
+  path="/technologia"
+>
+  <h2 id="warstwy">Warstwy sieci</h2>
+  <p>Pięć warstw funkcjonalnych nad jednym wspólnym ledgerem. Każda instytucja korzysta z tych samych warstw pod własną marką i na własnej licencji.</p>
+  <LayerDiagram />
+
+  <h2 id="ledger">Ledger</h2>
+  <p><strong>Hyperledger Besu</strong>: permissioned EVM, klient Ethereum klasy enterprise utrzymywany przez Linux Foundation. Ten sam stack, na którym JPMorgan rozlicza tokenizowane transakcje.</p>
+  <ul>
+    <li><strong>Konsensus QBFT.</strong> Deterministyczna finalność: transakcja jest ostateczna w momencie zapisu, bez okresu niepewności. Tolerancja awarii do jednej trzeciej walidatorów.</li>
+    <li><strong>Walidatory u założycieli.</strong> Każdy założyciel prowadzi własny węzeł walidujący. Operator nie ma większości. Zmiana zbioru walidatorów wymaga zgody rady.</li>
+    <li><strong>Prywatność transakcji.</strong> Dane transakcji widoczne dla stron i nadzoru, nie dla wszystkich uczestników. Dane osobowe nigdy nie trafiają na ledger, wyłącznie odciski kryptograficzne.</li>
+    <li><strong>Smart kontrakty w Solidity.</strong> Największy ekosystem audytorów i narzędzi. Kontrakty audytowane zewnętrznie przed każdym wdrożeniem.</li>
+  </ul>
+
+  <h2 id="tokeny">Tokenizowane papiery</h2>
+  <p><strong>ERC-3643</strong> jako standard tokenizowanych papierów wartościowych. Reguły zgodności są częścią tokena, nie zewnętrznym procesem.</p>
+  <ul>
+    <li>Transfer wykonuje się tylko między zweryfikowanymi tożsamościami. Token sam sprawdza uprawnienia nabywcy.</li>
+    <li>Ograniczenia zbywalności, limity inwestorów, blokady i wykup jako parametry kontraktu, kontrolowane przez emitenta.</li>
+    <li>Zdarzenia korporacyjne (odsetki, dywidendy, wykup) jako operacje na ledgerze, rozliczane w tokenie e-pieniądza.</li>
+    <li>Rozliczenie DvP: aktywo za pieniądz w jednej atomowej transakcji. Obie strony wykonują się razem albo żadna. Nogą pieniężną jest PLT, stablecoin złotego z pokryciem 1:1 (<a href="https://plt.network" target="_blank" rel="noopener">plt.network</a>), lub token e-pieniądza banku.</li>
+    <li>KDPW jako depozyt tokenizowanych instrumentów, zgodnie z rolą w polskim systemie rynku kapitałowego.</li>
+  </ul>
+
+  <h2 id="tozsamosc">Tożsamość</h2>
+  <p>Klient weryfikuje się raz i przenosi tę weryfikację między instytucjami. Źródłem prawdy jest mObywatel.</p>
+  <ul>
+    <li><strong>DID (Decentralized Identifiers)</strong> jako identyfikator klienta na sieci, niezależny od pojedynczej instytucji.</li>
+    <li><strong>Verifiable Credentials</strong> jako poświadczenia weryfikacji: kto, kiedy i na jakiej podstawie potwierdził tożsamość. Wydawane przez instytucję, która wykonała weryfikację.</li>
+    <li><strong>OID4VC i SD-JWT</strong>: standardy wydawania i prezentacji poświadczeń zgodne z europejskim portfelem tożsamości (eIDAS 2.0). Selektywne ujawnianie: klient pokazuje tylko te atrybuty, które są potrzebne.</li>
+    <li><strong>Dowody zerowej wiedzy.</strong> Klient dowodzi, że jest pełnoletni, jest rezydentem, nie figuruje na liście sankcyjnej, bez ujawniania numeru PESEL ani daty urodzenia.</li>
+    <li><strong>Mandaty dla agentów AI (AP2)</strong> jako weryfikowalne poświadczenia: kto, komu, na co i do jakiej kwoty udzielił pełnomocnictwa. Bank widzi łańcuch autoryzacji.</li>
+  </ul>
+
+  <h2 id="custody">Custody</h2>
+  <ul>
+    <li><strong>MPC (Multi-Party Computation).</strong> Klucz nigdy nie istnieje w całości w jednym miejscu. Podpis powstaje z udziałów rozproszonych między instytucję, operatora i, opcjonalnie, klienta.</li>
+    <li><strong>HSM.</strong> Udziały kluczy instytucji w certyfikowanych modułach sprzętowych (FIPS 140-3), w polskich centrach danych.</li>
+    <li><strong>Polityki podpisu.</strong> Limity, dwuosobowa akceptacja, opóźnienia czasowe dla dużych transferów, odzyskiwanie dostępu bez pojedynczego punktu awarii.</li>
+    <li>Instytucja może prowadzić custody samodzielnie, korzystać z operatora lub z licencjonowanego depozytariusza.</li>
+  </ul>
+
+  <h2 id="compliance">Compliance</h2>
+  <ul>
+    <li><strong>KYT (Know Your Transaction).</strong> Analiza transakcji w czasie rzeczywistym na poziomie sieci: wzorce, powiązania, ekspozycja na adresy wysokiego ryzyka. Alerty trafiają do instytucji, nie do operatora.</li>
+    <li><strong>Travel Rule.</strong> Dane nadawcy i odbiorcy przekazywane między instytucjami zgodnie z rozporządzeniem TFR, w kanale szyfrowanym, poza ledgerem.</li>
+    <li><strong>Screening sankcyjny</strong> jako warunek transferu w kontrakcie tokena. Transakcja z podmiotem objętym sankcjami nie wykonuje się.</li>
+    <li><strong>Ślad audytowy.</strong> Każda operacja podpisana, znakowana czasem i dostępna dla nadzoru w trybie tylko do odczytu.</li>
+    <li>Zgodność z DORA: operator jako kluczowy dostawca ICT, testy odporności, raportowanie incydentów, plany ciągłości działania.</li>
+  </ul>
+
+  <h2 id="mosty">Mosty</h2>
+  <p>Banach Network nie jest wyspą. Polska instytucja rozlicza się z globalnymi sieciami bez opuszczania polskiej jurysdykcji.</p>
+  <ul>
+    <li><strong>Canton</strong>: rozliczenia z instytucjami globalnymi na sieci o modelu prywatności zgodnym z wymogami rynku instytucjonalnego.</li>
+    <li><strong>Ethereum</strong>: dostęp do płynności i standardów tokenów, z zachowaniem kontroli nad tym, co i do kogo może opuścić sieć.</li>
+    <li><strong>Cardano</strong>: interoperacyjność z siecią o istotnej obecności w regionie.</li>
+    <li>Mosty działają w modelu lock-and-mint z atestacją walidatorów założycieli. Każdy transfer przez most przechodzi te same kontrole zgodności co transfer wewnątrz sieci.</li>
+  </ul>
+
+  <h2 id="operacje">Operacje i odporność</h2>
+  <ul>
+    <li>Infrastruktura w Polsce i w Unii Europejskiej, w co najmniej dwóch niezależnych lokalizacjach.</li>
+    <li>Cel dostępności 99,95% dla warstwy rozliczeniowej. Praca 24/7, bez okien rozliczeniowych.</li>
+    <li>Otwarte specyfikacje interfejsów. Instytucja może wyeksportować swoje dane i opuścić sieć bez utraty ciągłości.</li>
+    <li>Kryptografia przygotowana na migrację do algorytmów postkwantowych zgodnie z harmonogramem NIST i ENISA.</li>
+  </ul>
+</Prose>

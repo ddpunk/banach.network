@@ -1,0 +1,37 @@
+---
+// Diagram warstw sieci jako SVG. Tekst w SVG, wiec skaluje sie i jest dostepny.
+const layers = [
+  { id: 'l5', label: 'Interoperacyjność', sub: 'mosty: Cardano, Ethereum, Canton' },
+  { id: 'l4', label: 'Płatności', sub: 'smart kontrakty, escrow, mandaty AI (AP2)' },
+  { id: 'l3', label: 'Aktywa', sub: 'ERC-3643, DvP, KDPW jako depozyt' },
+  { id: 'l2', label: 'Pieniądz', sub: 'PLT (działa) i tokeny e-pieniądza banków, art. 60 MiCA' },
+  { id: 'l1', label: 'Tożsamość', sub: 'mObywatel, DID, VC, dowody ZK' },
+];
+---
+<figure class="diagram">
+  <svg viewBox="0 0 720 420" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="dg-title dg-desc">
+    <title id="dg-title">Warstwy Banach Network</title>
+    <desc id="dg-desc">Pięć warstw funkcjonalnych nad wspólnym ledgerem Hyperledger Besu z walidatorami u banków założycieli.</desc>
+    <g font-family="'Inter Variable', system-ui, sans-serif">
+      {layers.map((l, i) => (
+        <g transform={`translate(40 ${24 + i * 62})`}>
+          <rect width="640" height="50" rx="8" fill="#FFFFFF" stroke="#DCE1DE" />
+          <text x="20" y="31" font-size="17" font-weight="600" fill="#0C1211">{l.label}</text>
+          <text x="620" y="31" font-size="13" fill="#5E6966" text-anchor="end">{l.sub}</text>
+        </g>
+      ))}
+      <g transform="translate(40 344)">
+        <rect width="640" height="56" rx="8" fill="#0C1211" />
+        <text x="20" y="25" font-size="17" font-weight="600" fill="#DDF0E7">Ledger</text>
+        <text x="20" y="44" font-size="13" fill="#C5E5D6">Hyperledger Besu, permissioned EVM, konsensus QBFT, walidatory u założycieli</text>
+      </g>
+      <line x1="720" y1="0" x2="720" y2="0" />
+    </g>
+  </svg>
+  <figcaption>Pięć warstw nad jednym ledgerem. Każda instytucja korzysta z tych samych warstw pod własną marką.</figcaption>
+</figure>
+<style>
+  .diagram { margin: 2rem 0; }
+  svg { width: 100%; height: auto; display: block; }
+  figcaption { font-size: 0.9rem; color: var(--muted); margin-top: 0.75rem; }
+</style>

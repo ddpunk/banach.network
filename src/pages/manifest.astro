@@ -1,0 +1,19 @@
+---
+import Prose from '../layouts/Prose.astro';
+import { Content, getHeadings } from '../content/manifest.md';
+// Pelny tekst manifestu: podmien src/content/manifest.md. Naglowki `##` trafiaja automatycznie do spisu sekcji.
+const headings = getHeadings();
+---
+<Prose
+  title="Manifest - Banach Network"
+  description="Manifest Banach Network: dlaczego Polska potrzebuje własnej sieci dla aktywów cyfrowych, co proponujemy i kogo zapraszamy do stołu."
+  eyebrow="Manifest"
+  h1="Polska sieć dla aktywów cyfrowych."
+  lead="Wrzesień 2026"
+  headings={headings}
+  path="/manifest"
+>
+  <Content />
+  <hr />
+  <p class="muted">Banach Network · Polska Tokenizacja S.A. · Warszawa 2026</p>
+</Prose>

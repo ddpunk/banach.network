@@ -1,0 +1,65 @@
+---
+import '@fontsource-variable/inter';
+import '@fontsource-variable/manrope';
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { t, type Locale } from '../i18n';
+
+interface Props { title: string; description: string; locale?: Locale; path?: string }
+const { title, description, locale = 'pl', path = '/' } = Astro.props;
+const d = t(locale);
+const site = 'https://banach.network';
+const canonical = new URL(path, site).href;
+const home = locale === 'pl' ? '/' : '/en';
+const plausible = import.meta.env.PUBLIC_PLAUSIBLE_DOMAIN ?? '';
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'Banach Network',
+  legalName: 'Polska Tokenizacja S.A.',
+  url: site,
+  logo: `${site}/favicon.svg`,
+  email: 'kontakt@banach.network',
+  address: { '@type': 'PostalAddress', addressLocality: 'Warszawa', addressCountry: 'PL' },
+};
+---
+<!doctype html>
+<html lang={locale === 'pl' ? 'pl-PL' : 'en'} class="no-js">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="alternate" hreflang="pl" href={`${site}/`} />
+    <link rel="alternate" hreflang="en" href={`${site}/en`} />
+    <link rel="alternate" hreflang="x-default" href={`${site}/`} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <meta name="theme-color" content="#0C1211" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Banach Network" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={`${site}/og.png`} />
+    <meta property="og:locale" content={locale === 'pl' ? 'pl_PL' : 'en_GB'} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={`${site}/og.png`} />
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+    <script is:inline>document.documentElement.classList.remove('no-js');</script>
+    {plausible && <script defer data-domain={plausible} src="https://plausible.io/js/script.js"></script>}
+  </head>
+  <body>
+    <a class="skip" href="#main">{locale === 'pl' ? 'Przejdź do treści' : 'Skip to content'}</a>
+    <Header d={d} home={home} />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer d={d} />
+  </body>
+</html>

@@ -1,0 +1,40 @@
+---
+// Logo Banach. Zrodlo: public/brand.svg (symbole #mark i #wordmark, fill=currentColor).
+// variant: 'lockup' (sygnet + logotyp z pliku w poziomie) | 'text' (sygnet + BANACH w Manrope, do malych rozmiarow: obrysowy logotyp ponizej ~30px traci czytelnosc) | 'mark' (sam sygnet) | 'stacked' (sygnet nad logotypem, jak w oryginale)
+// tone: 'dark' (ciemny znak na jasnym tle) | 'light' (jasny znak na ciemnym tle) | 'inherit' (kolor z CSS currentColor)
+interface Props { variant?: 'lockup' | 'text' | 'mark' | 'stacked'; tone?: 'dark' | 'light' | 'inherit'; height?: number; class?: string }
+const { variant = 'lockup', tone = 'dark', height = 28, class: cls = '' } = Astro.props;
+const color = tone === 'dark' ? 'var(--ink)' : tone === 'light' ? 'var(--paper)' : 'currentColor';
+const markW = height * (460 / 572);
+const wordH = height * 0.62;
+const wordW = wordH * (934 / 174);
+---
+{variant === 'mark' && (
+  <svg class={cls} width={markW} height={height} style={`color:${color}`} role="img" aria-label="Banach"><use href="/brand.svg#mark" /></svg>
+)}
+{variant === 'lockup' && (
+  <span class={`lockup ${cls}`} style={`color:${color};--gap:${height * 0.42}px`} role="img" aria-label="Banach">
+    <svg width={markW} height={height} aria-hidden="true"><use href="/brand.svg#mark" /></svg>
+    <svg width={wordW} height={wordH} aria-hidden="true"><use href="/brand.svg#wordmark" /></svg>
+  </span>
+)}
+{variant === 'text' && (
+  <span class={`lockup ${cls}`} style={`color:${color};--gap:${height * 0.34}px;--fs:${height * 0.5}px;--fs2:${height * 0.24}px`} role="img" aria-label="Banach Network">
+    <svg width={markW} height={height} aria-hidden="true"><use href="/brand.svg#mark" /></svg>
+    <span class="wm" aria-hidden="true"><span class="txt">BANACH</span><span class="sub">network</span></span>
+  </span>
+)}
+{variant === 'stacked' && (
+  <span class={`stacked ${cls}`} style={`color:${color};--gap:${height * 0.16}px`} role="img" aria-label="Banach">
+    <svg width={markW} height={height} aria-hidden="true"><use href="/brand.svg#mark" /></svg>
+    <svg width={height * 1.7} height={height * 1.7 * (174 / 934)} aria-hidden="true"><use href="/brand.svg#wordmark" /></svg>
+  </span>
+)}
+<style>
+  .lockup { display: inline-flex; align-items: center; gap: var(--gap); }
+  .stacked { display: inline-flex; flex-direction: column; align-items: center; gap: var(--gap); }
+  svg { display: block; }
+  .wm { display: inline-flex; flex-direction: column; align-items: flex-start; gap: 0.18em; font-family: var(--font-head); line-height: 1; }
+  .txt { font-weight: 800; font-size: var(--fs); letter-spacing: 0.2em; }
+  .sub { font-weight: 500; font-size: var(--fs2); letter-spacing: 0.42em; text-transform: lowercase; opacity: 0.7; padding-left: 0.05em; }
+</style>

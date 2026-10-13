@@ -1,0 +1,76 @@
+---
+import Base from '../layouts/Base.astro';
+const groups = [
+  {
+    id: 'bank',
+    h2: 'Bank',
+    lead: 'Bank jest naturalnym emitentem pieniądza i aktywów na sieci. Ma licencję, klientów, aplikację i zaufanie. Brakuje mu tylko wspólnej infrastruktury.',
+    issue: 'Token e-pieniądza w PLN na własnej licencji. Tokenizowane obligacje własne i skarbowe, certyfikaty depozytowe, tokenizowane produkty strukturyzowane. Rejestr akcjonariuszy dla klientów korporacyjnych.',
+    gets: 'Pieniądz rozliczeniowy od pierwszego dnia: PLT, stablecoin złotego z pokryciem 1:1, zgodny z MiCA. Rozliczenie atomowe 24/7 z każdą instytucją na sieci. Wspólna warstwa tożsamości: klient zweryfikowany raz, przez mObywatel. KYT, screening sankcyjny i Travel Rule na poziomie sieci. Mosty do sieci globalnych.',
+    skip: 'Własnego ledgera, własnej warstwy tożsamości, własnych mostów, własnego systemu custody i własnych integracji z KDPW. Buduje produkt, nie infrastrukturę.',
+    licence: 'Licencja bankowa. Emisja tokena e-pieniądza przez notyfikację do KNF (art. 60 MiCA). Tokenizowany papier wartościowy jako instrument finansowy pod MiFID II, w ramach posiadanych zezwoleń.',
+  },
+  {
+    id: 'dom-maklerski',
+    h2: 'Dom maklerski',
+    lead: 'Trzy miliony rachunków maklerskich, z których 85% jest nieaktywnych. Tokenizacja obniża próg wejścia i otwiera obrót poza godzinami sesji.',
+    issue: 'Oferowanie i obsługa obrotu tokenizowanymi obligacjami, akcjami i jednostkami funduszy. Prowadzenie rejestrów i rachunków dla tokenizowanych instrumentów. Usługi dla emitentów przy tokenizowanych emisjach.',
+    gets: 'Obrót 24/7 z rozliczeniem DvP w tokenie e-pieniądza. Fractional od 100 zł bez zmiany infrastruktury. Wspólna tożsamość klienta z bankami na sieci. Dostęp do instrumentów emitowanych przez wszystkie instytucje.',
+    skip: 'Własnej platformy tokenizacji, własnego custody dla aktywów cyfrowych, własnych integracji z depozytem i emitentami.',
+    licence: 'Zezwolenie na prowadzenie działalności maklerskiej. Tokenizowane instrumenty finansowe w ramach posiadanych zezwoleń MiFID II. Dla instrumentów notowanych: DLT Pilot Regime jako ścieżka opcjonalna.',
+  },
+  {
+    id: 'instytucja-platnicza',
+    h2: 'Instytucja płatnicza',
+    lead: 'Płatności warunkowe, escrow, cash pooling i rozliczenia B2B jako smart kontrakty. Instytucja płatnicza dostaje warstwę programowalnego pieniądza bez budowania ledgera.',
+    issue: 'Token e-pieniądza w PLN na własnej licencji. Usługi płatnicze oparte o smart kontrakty: escrow, płatności warunkowe, płatności cykliczne, wypłaty dla agentów AI z mandatem.',
+    gets: 'PLT jako gotowy pieniądz rozliczeniowy, bez własnej emisji na start. Natychmiastowe rozliczenie z bankami i innymi instytucjami na sieci. Standard płatności dla agentów AI (AP2). Wspólna warstwa KYT i Travel Rule. Wypłata tokena na rachunek bankowy przez istniejące szyny.',
+    skip: 'Własnej infrastruktury dla pieniądza tokenizowanego, własnego standardu dla płatności AI, własnych integracji z bankami na potrzeby rozliczeń.',
+    licence: 'Licencja instytucji pieniądza elektronicznego lub krajowej instytucji płatniczej. Token e-pieniądza przez notyfikację (art. 60 MiCA) dla instytucji pieniądza elektronicznego.',
+  },
+  {
+    id: 'tfi',
+    h2: 'Towarzystwo funduszy inwestycyjnych',
+    lead: 'Jednostki uczestnictwa i certyfikaty inwestycyjne jako tokeny. Dystrybucja przez każdy bank na sieci, rozliczenie w tym samym dniu, bez pośredników w łańcuchu.',
+    issue: 'Tokenizowane jednostki uczestnictwa i certyfikaty inwestycyjne. Fundusze inwestujące w tokenizowane obligacje i aktywa realne. Rejestr uczestników prowadzony na sieci.',
+    gets: 'Dystrybucja przez wszystkie instytucje na sieci pod ich marką. Nabycie i umorzenie z rozliczeniem DvP w tym samym dniu. Wspólna tożsamość inwestora, bez ponownego KYC przy każdym dystrybutorze. Automatyczne zdarzenia korporacyjne.',
+    skip: 'Własnego agenta transferowego dla tokenów, własnych integracji z dystrybutorami, własnej warstwy tożsamości inwestora.',
+    licence: 'Zezwolenie na zarządzanie funduszami. Tokenizowana jednostka lub certyfikat w ramach istniejących ram dla funduszy inwestycyjnych. Depozytariusz zgodnie z obowiązującymi wymogami.',
+  },
+];
+---
+<Base title="Dla instytucji - Banach Network" description="Co dostaje bank, dom maklerski, instytucja płatnicza i TFI na Banach Network: co może emitować, co dostaje od sieci, czego nie musi budować sam, jaka licencja wystarcza." path="/dla-instytucji">
+  <section class="section">
+    <div class="wrap">
+      <p class="eyebrow">Dla instytucji</p>
+      <h1>Buduj produkt, nie infrastrukturę.</h1>
+      <p class="lead">Cztery typy instytucji, cztery role na sieci. W każdej: co możesz emitować, co dostajesz od sieci, czego nie musisz budować sam i jaka licencja wystarcza.</p>
+    </div>
+  </section>
+  <section class="section">
+    <div class="wrap">
+      <ul class="subnav" aria-label="Typy instytucji">
+        {groups.map(g => <li><a href={`#${g.id}`}>{g.h2}</a></li>)}
+      </ul>
+      {groups.map(g => (
+        <div class="block" id={g.id}>
+          <h2>{g.h2}</h2>
+          <p class="measure">{g.lead}</p>
+          <dl>
+            <div><dt>Co może emitować</dt><dd>{g.issue}</dd></div>
+            <div><dt>Co dostaje od sieci</dt><dd>{g.gets}</dd></div>
+            <div><dt>Czego nie musi budować sam</dt><dd>{g.skip}</dd></div>
+            <div><dt>Jaka licencja wystarcza</dt><dd>{g.licence}</dd></div>
+          </dl>
+        </div>
+      ))}
+    </div>
+  </section>
+  <section class="section dark">
+    <div class="wrap">
+      <h2>Miejsce przy stole jest ograniczone do 3-5 założycieli.</h2>
+      <p class="lead">Założyciele definiują standard. Kolejni uczestnicy dołączają na warunkach, które założyciele ustalili.</p>
+      <p><a class="btn" href="/kontakt">Zostań założycielem</a></p>
+    </div>
+  </section>
+</Base>
