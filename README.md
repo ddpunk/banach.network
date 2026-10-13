@@ -80,13 +80,18 @@ Bez trackerow domyslnie. Ustaw `PUBLIC_PLAUSIBLE_DOMAIN=banach.network`, zeby do
 
 ## Wdrozenie: Cloudflare Pages
 
-1. Repo na GitHub. Cloudflare Dashboard, Workers & Pages, Create, Pages, Connect to Git.
-2. Build command: `npm run build`. Output directory: `dist`. Node version: `20` (zmienna `NODE_VERSION`).
-3. Zmienne srodowiskowe (opcjonalnie): `PUBLIC_FORM_ENDPOINT`, `PUBLIC_PLAUSIBLE_DOMAIN`.
-4. Custom domain: `banach.network` i `www.banach.network` (przekierowanie na apex). Cloudflare wystawi certyfikat.
-5. Kazdy push do `main` publikuje produkcje, pull requesty dostaja preview URL.
+Projekt `banach-network` na koncie Cloudflare (maciej@binarapps.com). Produkcja: https://banach-network.pages.dev oraz domena banach.network.
 
-Dlaczego Cloudflare Pages: darmowy tier wystarczy na lata, CDN z PoP w Warszawie, brak limitow bandwidth, preview per PR, proste przekierowania w `public/_redirects`, jesli beda potrzebne.
+Reczny deploy z lokalnego builda (wymaga `npx wrangler login`):
+
+```bash
+npm run build
+npx wrangler pages deploy dist --project-name banach-network --branch main
+```
+
+Deploy automatyczny z GitHuba: w panelu Cloudflare, Workers & Pages, banach-network, Settings, Builds, Connect to Git, wybierz repo `ddpunk/banach.network`, build command `npm run build`, output `dist`. Od tego momentu kazdy push do `main` publikuje produkcje, pull requesty dostaja preview URL.
+
+Domena: DNS banach.network na Cloudflare (jak binar.com i bynet.io); rekordy i certyfikat Pages ustawia samo po dodaniu domeny w projekcie.
 
 ## Zasady tresci
 
